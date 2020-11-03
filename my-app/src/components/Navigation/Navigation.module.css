@@ -1,0 +1,9 @@
+.Navigation{
+    display: flex;
+    justify-content: flex-end;
+    background-color: cadetblue;
+    height: 40px;
+}
+.NavigationItem{
+    margin: 10px 20px;
+}
