@@ -38,16 +38,21 @@ class SignupForm extends React.Component {
           onChange={this.handle_change}
           style={{height:"30px" ,margin:"20px"}}
         />
-        <label htmlFor="type">Sign up as:</label>
+        <br/>
+        <label htmlFor="type">Sign up as: </label>
+        <br/>
 
-        <select id="type" name="type" value="farmer" onChange={this.handle_change}>
+        <select id="type" name="type" value={this.state.type} onChange={this.handle_change}>
           <option value="farmer">Farmer</option>
           <option value="distributor">Distributor</option>
-          <option value="customer">Customer</option>
+          <option value="retailer">Retailer</option>
          
         </select>
+        <br/>
 
-        <input type="submit" style={{display:"block" ,margin:"auto",height:"30px"}}/>
+     
+
+        <input type="submit" style={{display:"block" ,margin:"auto", marginTop: "20px", height:"30px"}}/>
       </form>
     );
   }
