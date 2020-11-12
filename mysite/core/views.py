@@ -68,21 +68,31 @@ def send_product(request):
 def get_user_details(request):
     actors_to_send_products = []
     user = User.objects.get(username=request.user)
+    available_products=[]
     if user.profile.type_of_user == "farmer":
         for distributor in Profile.objects.filter(type_of_user="distributor"):
             actors_to_send_products.append(distributor.user.username)
     elif user.profile.type_of_user == "distributor":
         for distributor in Profile.objects.filter(type_of_user="retailer"):
             actors_to_send_products.append(distributor.user.username)
-    available_products = [{"product_name": product.product_name,
+        available_products = [{"product_name": product.product_name,
+                        "product_id": product.product_id} for product in
+                         Product.objects.filter(owner=request.user, is_available=True)]
+    elif user.profile.type_of_user== "customer":
+        available_products=[{"product_name": product.product_name,
                            "product_id": product.product_id} for product in
-                          Product.objects.filter(owner=request.user, is_available=True)]
+                          Product.objects.filter(is_available=False)]
+
+    
+   
+    
     print({
         "actors_to_send_products": actors_to_send_products,
         "type_of_user": user.profile.type_of_user,
         "products": available_products
     })
     return Response({
+    
         "actors_to_send_products": actors_to_send_products,
         "type_of_user": user.profile.type_of_user,
         "products": available_products

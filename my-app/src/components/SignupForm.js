@@ -46,13 +46,14 @@ class SignupForm extends React.Component {
           <option value="farmer">Farmer</option>
           <option value="distributor">Distributor</option>
           <option value="retailer">Retailer</option>
+          <option value="customer">Customer</option>
          
         </select>
         <br/>
 
      
 
-        <input type="submit" style={{display:"block" ,margin:"auto", marginTop: "20px", height:"30px"}}/>
+        <button type="submit" onClick={e=>this.props.handle_signup(e,this.state)} style={{margin:"20px auto"}}>Sign up</button>
       </form>
     );
   }

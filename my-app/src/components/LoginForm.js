@@ -37,7 +37,7 @@ class LoginForm extends React.Component {
           onChange={this.handle_change}
           style={{height:"30px" ,margin:"20px"}}
         />
-        <input type="submit" style={{display:"block" ,margin:"auto",height:"30px"}}/>
+        <button type="submit" onClick={e=>this.props.handle_login(e,this.state)}>Log in</button>
       </form>
     );
   }

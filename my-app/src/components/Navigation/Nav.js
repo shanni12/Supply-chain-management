@@ -13,6 +13,7 @@ function Nav(props) {
   const logged_in_nav = (
     <div className={classes.Navigation}>
       <div onClick={props.handle_logout} className={classes.NavigationItem}>Logout</div>
+      <div onClick={() => props.display_form('blockchain')} className={classes.NavigationItem}>See Blockchain</div>
     </div>
   );
   return <div>{props.logged_in ? logged_in_nav : logged_out_nav}</div>;

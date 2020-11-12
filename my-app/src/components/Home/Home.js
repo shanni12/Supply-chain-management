@@ -10,8 +10,12 @@ class Home extends Component {
     available_products: [],
     selected_product_to_send: "Select",
     transport_details: "",
+    product_id_to_search: "",
+    product_search_details: [],
+    transaction1:{},
+    transaction2:{}
   };
-
+  
   componentDidMount() {
     fetch("http://localhost:8000/core/get_user_details", {
       headers: {
@@ -30,9 +34,16 @@ class Home extends Component {
             newState["actors_to_send_products"] = data.actors_to_send_products;
             newState["available_products"] = data.products;
           }
+          else if(data.type_of_user==="customer"){
+            newState["user_type"]=data.type_of_user;
+            newState["available_products"]=data.products;
+          }
+          else if(data.type_of_user==="retailer"){
+            newState["user_type"]=data.type_of_user;
+          }
           return newState;
         });
-      });
+      }).catch(error=>{console.log(error)});
   }
 
   handle_change = (e) => {
@@ -108,6 +119,26 @@ class Home extends Component {
         alert("Sent successfully");
       });
   };
+  handle_product=()=>{
+    fetch(`http://localhost:5000/find/${this.state.product_id_to_search}`,{
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        "Access-Control-Allow-Origin": true,
+        "Access-Control-Allow-Credentials": true,
+    }
+    }).then((res)=>res.json()).then((json)=>{
+      console.log(typeof(json));
+      console.log(json);
+      this.setState({
+        product_search_details: json,
+        transaction1: json[0].data,
+        transaction2:json[1].data,
+        product_id_to_search:""
+      });
+      console.log(this.state.product_search_details[0]);
+      console.log(this.state.product_search_details[1]);
+    })
+  }
   render() {
     if (this.state.user_type === "farmer") {
       return (
@@ -240,6 +271,33 @@ class Home extends Component {
           </form>
         </div>
       );
+    }else if(this.state.user_type==="customer"){
+     return ( <div><div style={{position:"relative",margin:"30px auto"}}><label style={{display:"block",margin:"20px auto"}}>Enter Product Id :</label>
+     <input type="text" onChange={this.handle_change}
+      name="product_id_to_search"
+      value={this.state.product_id_to_search} style={{display:"block" ,margin:"auto"}}></input>
+      <button type="submit" onClick={this.handle_product} style={{margin: "20px auto"}}>Search</button>
+      {Object.keys(this.state.transaction1).length?(<div>
+        
+      <h1>Product Name: {this.state.transaction1.product_name}</h1>
+      <h3>Transaction 1</h3>
+      <p>Product was sent by Farmer {this.state.transaction1.sent_by}</p>
+      <p>Product was sent to Distributor {this.state.transaction1.sent_to}</p>
+      <p>Product details: {this.state.transaction1.product_details}</p>
+      <p>Quantity sent: {this.state.transaction1.product_quantity}</p>
+      
+      </div>):null}
+      {Object.keys(this.state.transaction1).length?<div>
+      <h3>Transaction 2</h3>
+      <p>Product was sent by Distributor {this.state.transaction2.sent_by}</p>
+      <p>Product was sent to Retailer {this.state.transaction2.sent_to}</p>
+      <p>Transportation Details: {this.state.transaction2.transport_details}</p>
+      </div>:null}</div>
+       <div style={{margin: "10px 20px",textAlign:"right"}} >
+         <h3 style={{marginRight:"60px"}}>Avilable products:</h3>
+         {this.state.available_products.map((product) => (
+                <p key={product.product_id} style={{marginRight:"5px"}}>{product.product_name} - {product.product_id}</p>
+              ))}</div></div> );
     } else {
       return <div>Loading</div>;
     }
