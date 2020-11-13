@@ -4,7 +4,7 @@ import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import "./App.css";
 import Home from "./components/Home/Home";
-//import BlockchainForm from "./components/BlockchainForm/BlockchainForm";
+import BlockchainForm from "./components/BlockchainForm/BlockchainForm";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +12,7 @@ class App extends Component {
       displayed_form: "login",
       logged_in: localStorage.getItem("token") ? true : false,
       username: "",
-      //show_home: true
+      show_home: true
     };
   }
 
@@ -98,23 +98,24 @@ class App extends Component {
   };
 
   display_form = (form) => {
-    // if (form=="blockchain")
-    //  {
-    //   this.setState({
-    //     displayed_form: form,
-    //     show_home: false
-    //   });
-    //  }
-    this.setState({
+    if (form==="blockchain")
+     {
+      this.setState({
+        displayed_form: form,
+        show_home: false
+      });
+     }
+     else
+       this.setState({
       displayed_form: form,
-    });
+       });
   };
-  // handle_home=()=>{
-  //   this.setState({
-  //      show_home:true,
-  //      displayed_form: ""
-  //   });
-  // }
+  handle_home=()=>{
+    this.setState({
+       show_home:true,
+       displayed_form: ""
+    });
+  }
   render() {
     let form;
     switch (this.state.displayed_form) {
@@ -124,9 +125,9 @@ class App extends Component {
       case "signup":
         form = <SignupForm handle_signup={this.handle_signup} />;
         break;
-      // case "blockchain":
-      //   form=<BlockchainForm handle_blockchain={this.handle_home}></BlockchainForm>
-
+      case "blockchain":
+        form=<BlockchainForm handle_blockchain={this.handle_home}></BlockchainForm>
+        break;
       default:
         form = null;
     }
@@ -141,7 +142,7 @@ class App extends Component {
       
         {form}
         <div>
-          {this.state.logged_in ?(
+          {this.state.logged_in&&this.state.show_home ?(
             <Home username={this.state.username}></Home>
           ) : (
             ""

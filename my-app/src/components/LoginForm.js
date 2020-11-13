@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
           name="password"
           value={this.state.password}
           onChange={this.handle_change}
-          style={{height:"30px" ,margin:"20px"}}
+          style={{height:"30px" ,margin:"20px auto",display:"block"}}
         />
         <button type="submit" onClick={e=>this.props.handle_login(e,this.state)}>Log in</button>
       </form>

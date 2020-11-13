@@ -272,7 +272,7 @@ class Home extends Component {
         </div>
       );
     }else if(this.state.user_type==="customer"){
-     return ( <div><div style={{position:"relative",margin:"30px auto"}}><label style={{display:"block",margin:"20px auto"}}>Enter Product Id :</label>
+     return ( <div><div style={{marginLeft:"30px"}}><label style={{display:"block",margin:"20px auto"}}>Enter Product Id :</label>
      <input type="text" onChange={this.handle_change}
       name="product_id_to_search"
       value={this.state.product_id_to_search} style={{display:"block" ,margin:"auto"}}></input>
@@ -293,13 +293,13 @@ class Home extends Component {
       <p>Product was sent to Retailer {this.state.transaction2.sent_to}</p>
       <p>Transportation Details: {this.state.transaction2.transport_details}</p>
       </div>:null}</div>
-       <div style={{margin: "10px 20px",textAlign:"right"}} >
+       <div style={{marginRight: "60px",textAlign:"right"}} >
          <h3 style={{marginRight:"60px"}}>Avilable products:</h3>
          {this.state.available_products.map((product) => (
                 <p key={product.product_id} style={{marginRight:"5px"}}>{product.product_name} - {product.product_id}</p>
               ))}</div></div> );
     } else {
-      return <div>Loading</div>;
+      return <div style={{marginTop:"200px",fontSize:"20px"}}>Click on Blockchain  to see the entire record</div>;
     }
   }
 }
